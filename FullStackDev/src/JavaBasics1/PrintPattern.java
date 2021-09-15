@@ -1,7 +1,7 @@
 /**
  * 
  */
-package assign1;
+package JavaBasics1;
 
 /**
  * This class prints out 4 specific patterns using loops.

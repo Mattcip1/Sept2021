@@ -1,7 +1,7 @@
 /**
  * 
  */
-package assign2;
+package JavaBasics1;
 
 import java.util.*;
 
