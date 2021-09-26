@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 
 class RecTest {
 
-	private static Integer[] ints = {2,4,4,8};;
+	private static Integer[] ints = {2,4,4,8};
 	private static Recursion test = new Recursion();
 	
 	@Test
