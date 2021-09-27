@@ -28,7 +28,7 @@ public class AirplaneTypeDAO extends BaseDAO<AirplaneType> {
 		save("Delete airplane_type where id = ?", new Object[] { type.getTypeId() });
 	}
 
-	public List<AirplaneType> readAirport() throws ClassNotFoundException, SQLException {
+	public List<AirplaneType> readAirplaneType() throws ClassNotFoundException, SQLException {
 		return read("SELECT * FROM airplane_type", null);
 	}
 

@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.ss.utopia.entity.Airport;
 import com.ss.utopia.entity.Route;
 
 public class RouteDAO extends BaseDAO<Route> {
@@ -16,8 +17,8 @@ public class RouteDAO extends BaseDAO<Route> {
 		super(conn);
 	}
 
-	public void addRoute(Route route) throws ClassNotFoundException, SQLException {
-		save("INSERT INTO route (origin_id, destination_id) VALUES (?, ?)", new Object[] {
+	public Integer addRoute(Route route) throws ClassNotFoundException, SQLException {
+		return saveWithPK("INSERT INTO route (origin_id, destination_id) VALUES (?, ?)", new Object[] {
 				route.getOriginAirport().getAirportCode(), route.getDestinationAirport().getAirportCode() });
 	}
 
@@ -34,6 +35,10 @@ public class RouteDAO extends BaseDAO<Route> {
 	public List<Route> readRoute() throws ClassNotFoundException, SQLException {
 		return read("SELECT * FROM route", null);
 	}
+	
+	public List<Route> readRouteById(Integer id) throws ClassNotFoundException, SQLException {
+		return read("SELECT * FROM route WHERE id = ?", new Object[] {id});
+	}
 
 	public List<Route> readRouteByAirportCode(String airportCode) throws ClassNotFoundException, SQLException {
 		return read("SELECT * FROM route WHERE origin_id = ? OR destination_id = ?",
@@ -47,7 +52,9 @@ public class RouteDAO extends BaseDAO<Route> {
 		while (rs.next()) {
 			Route route = new Route();
 			route.setRouteId(rs.getInt("id"));
+			route.setOriginAirport(new Airport());
 			route.getOriginAirport().setAirportCode(rs.getString("origin_id"));
+			route.setDestinationAirport(new Airport());
 			route.getDestinationAirport().setAirportCode(rs.getString("destination_id"));
 			routes.add(route);
 		}

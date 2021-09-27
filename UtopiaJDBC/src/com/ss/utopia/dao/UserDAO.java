@@ -29,7 +29,7 @@ public class UserDAO extends BaseDAO<User> {
 	}
 
 	public void deleteUser(User user) throws ClassNotFoundException, SQLException {
-		save("Delete user where id = ?", new Object[] { user.getUserId() });
+		save("Delete from user where id = ?", new Object[] { user.getUserId() });
 	}
 
 	public List<User> readUser() throws ClassNotFoundException, SQLException {

@@ -25,11 +25,11 @@ public class PassengerDAO extends BaseDAO<Passenger> {
 	public void updatePassenger(Passenger passenger) throws ClassNotFoundException, SQLException {
 		save("UPDATE passenger set given_name = ?, family_name = ?, dob = ?, gender = ?, address = ? WHERE id = ?",
 				new Object[] {passenger.getFirstName(), passenger.getLastName(), passenger.getDateOfBirth(),
-						passenger.getGender(), passenger.getAddress(), passenger.getBookingId().getId()});
+						passenger.getGender(), passenger.getAddress(), passenger.getPassId()});
 	}
 
 	public void deletePassenger(Passenger passenger) throws ClassNotFoundException, SQLException {
-		save("Delete passenger where id = ?", new Object[] { passenger.getBookingId().getId()});
+		save("Delete from passenger where id = ?", new Object[] { passenger.getPassId()});
 	}
 
 	public List<Passenger> readPassenger() throws ClassNotFoundException, SQLException {

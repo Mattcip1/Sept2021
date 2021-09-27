@@ -6,7 +6,7 @@ public class Booking {
 
 	private Integer Id;
 	private Integer isActive;
-	private Integer confirmationCode;
+	private String confirmationCode;
 	private List<Passenger> passengers;
 	private List<FlightBooking> bookings;
 	
@@ -22,10 +22,10 @@ public class Booking {
 	public void setIsActive(Integer isActive) {
 		this.isActive = isActive;
 	}
-	public Integer getConfirmationCode() {
+	public String getConfirmationCode() {
 		return confirmationCode;
 	}
-	public void setConfirmationCode(Integer confirmationCode) {
+	public void setConfirmationCode(String confirmationCode) {
 		this.confirmationCode = confirmationCode;
 	}
 	public List<Passenger> getPassengers() {

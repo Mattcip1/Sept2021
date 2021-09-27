@@ -40,7 +40,7 @@ public abstract class BaseDAO<T> {
 		pstmt.execute();
 		ResultSet rs = pstmt.getGeneratedKeys();
 		while(rs.next()) {
-			return rs.getInt(0);
+			return rs.getInt(1);
 		}
 		return null;
 	}

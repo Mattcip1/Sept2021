@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.ss.utopia.entity.Airplane;
+import com.ss.utopia.entity.AirplaneType;
 import com.ss.utopia.entity.Airport;
 
 public class AirplaneDAO extends BaseDAO<Airplane> {
@@ -15,8 +16,8 @@ public class AirplaneDAO extends BaseDAO<Airplane> {
 		super(conn);
 	}
 	
-	public void addAirplane(Airplane airplane) throws ClassNotFoundException, SQLException {
-		save("INSERT INTO airplane (type_id) VALUES (?)", new Object[] {airplane.getTypeId()});
+	public Integer addAirplane(Airplane airplane) throws ClassNotFoundException, SQLException {
+		return saveWithPK("INSERT INTO airplane (type_id) VALUES (?)", new Object[] {airplane.getTypeId().getTypeId()});
 	}
 
 	public void updateAirplane(Airplane airplane) throws ClassNotFoundException, SQLException {
@@ -28,8 +29,12 @@ public class AirplaneDAO extends BaseDAO<Airplane> {
 		save("Delete airplane where id = ?", new Object[] { airplane.getAirplaneId() });
 	}
 
-	public List<Airplane> readAirport() throws ClassNotFoundException, SQLException {
+	public List<Airplane> readAirplane() throws ClassNotFoundException, SQLException {
 		return read("SELECT * FROM airplane", null);
+	}
+	
+	public List<Airplane> readAirplaneById(Integer id) throws ClassNotFoundException, SQLException {
+		return read("SELECT * FROM airplane WHERE id = ?", new Object[] {id});
 	}
 
 	@Override
@@ -38,6 +43,8 @@ public class AirplaneDAO extends BaseDAO<Airplane> {
 
 		while (rs.next()) {
 			Airplane airplane = new Airplane();
+			airplane.setAirplaneId(rs.getInt("id"));
+			airplane.setTypeId(new AirplaneType());
 			airplane.getTypeId().setTypeId(rs.getInt("type_id"));
 			airplanes.add(airplane);
 		}

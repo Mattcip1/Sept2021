@@ -19,6 +19,11 @@ public class AirportDAO extends BaseDAO<Airport> {
 		save("INSERT INTO airport (iata_id, city) VALUES (?, ?)", new Object[] {
 				airport.getAirportCode(), airport.getCityName() });
 	}
+	
+	public Integer addAirportWithPk(Airport airport) throws ClassNotFoundException, SQLException {
+		return saveWithPK("INSERT INTO airport (iata_id, city) VALUES (?, ?)", new Object[] {
+				airport.getAirportCode(), airport.getCityName() });
+	}
 
 	public void updateAirport(Airport airport) throws ClassNotFoundException, SQLException {
 		save("UPDATE airport set city = ? WHERE iata_id = ?",
@@ -26,11 +31,15 @@ public class AirportDAO extends BaseDAO<Airport> {
 	}
 
 	public void deleteAirport(Airport airport) throws ClassNotFoundException, SQLException {
-		save("Delete airport where id = ?", new Object[] { airport.getAirportCode() });
+		save("Delete from airport where iata_id = ?", new Object[] { airport.getAirportCode() });
 	}
 
 	public List<Airport> readAirport() throws ClassNotFoundException, SQLException {
 		return read("SELECT * FROM airport", null);
+	}
+	
+	public List<Airport> readAirportById(String id) throws ClassNotFoundException, SQLException {
+		return read("SELECT * FROM airport WHERE iata_id = ? ", new Object[] {id});
 	}
 
 	@Override

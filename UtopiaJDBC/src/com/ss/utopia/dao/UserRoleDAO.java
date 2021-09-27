@@ -29,8 +29,16 @@ public class UserRoleDAO extends BaseDAO<UserRole> {
 		save("Delete user_role where id = ?", new Object[] { role.getRoleId() });
 	}
 
-	public List<UserRole> readAirport() throws ClassNotFoundException, SQLException {
-		return read("SELECT * FROM airport", null);
+	public List<UserRole> readUserRole() throws ClassNotFoundException, SQLException {
+		return read("SELECT * FROM user_role", null);
+	}
+	
+	public List<UserRole> getUserRole() throws ClassNotFoundException, SQLException {
+		return read("SELECT * FROM user_role WHERE id = 3", null);
+	}
+	
+	public List<UserRole> getAgentRole() throws ClassNotFoundException, SQLException {
+		return read("SELECT * FROM user_role WHERE id = 2", null);
 	}
 
 	@Override

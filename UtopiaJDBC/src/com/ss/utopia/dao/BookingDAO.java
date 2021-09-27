@@ -16,8 +16,8 @@ public class BookingDAO extends BaseDAO<Booking> {
 		super(conn);
 	}
 
-	public void addBooking(Booking booking) throws ClassNotFoundException, SQLException {
-		save("INSERT INTO booking (is_active, confirmation_code) VALUES (?, ?)", new Object[] {
+	public Integer addBooking(Booking booking) throws ClassNotFoundException, SQLException {
+		return saveWithPK("INSERT INTO booking (is_active, confirmation_code) VALUES (?, ?)", new Object[] {
 				booking.getIsActive(), booking.getConfirmationCode()});
 	}
 
@@ -30,8 +30,12 @@ public class BookingDAO extends BaseDAO<Booking> {
 		save("Delete booking where id = ?", new Object[] { booking.getId() });
 	}
 
-	public List<Booking> readAirport() throws ClassNotFoundException, SQLException {
-		return read("SELECT * FROM airport", null);
+	public List<Booking> readBooking() throws ClassNotFoundException, SQLException {
+		return read("SELECT * FROM booking", null);
+	}
+	
+	public List<Booking> readBookingById(Integer in) throws ClassNotFoundException, SQLException {
+		return read("SELECT * FROM booking WHERE id = ?", new Object[] {in});
 	}
 
 	@Override
@@ -42,7 +46,7 @@ public class BookingDAO extends BaseDAO<Booking> {
 			Booking booking = new Booking();
 			booking.setId(rs.getInt("id"));
 			booking.setIsActive(rs.getInt("is_active"));
-			booking.setConfirmationCode(rs.getInt("confirmation_code"));
+			booking.setConfirmationCode(rs.getString("confirmation_code"));
 			bookings.add(booking);
 		}
 		return bookings;
