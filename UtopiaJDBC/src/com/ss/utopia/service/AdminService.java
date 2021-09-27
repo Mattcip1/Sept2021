@@ -10,6 +10,7 @@ import com.ss.utopia.dao.AirplaneTypeDAO;
 import com.ss.utopia.dao.AirportDAO;
 import com.ss.utopia.dao.BookingAgentDAO;
 import com.ss.utopia.dao.BookingDAO;
+import com.ss.utopia.dao.BookingPaymentDAO;
 import com.ss.utopia.dao.BookingUserDAO;
 import com.ss.utopia.dao.FlightDAO;
 import com.ss.utopia.dao.PassengerDAO;
@@ -21,6 +22,7 @@ import com.ss.utopia.entity.AirplaneType;
 import com.ss.utopia.entity.Airport;
 import com.ss.utopia.entity.Booking;
 import com.ss.utopia.entity.BookingAgent;
+import com.ss.utopia.entity.BookingPayment;
 import com.ss.utopia.entity.BookingUser;
 import com.ss.utopia.entity.Flight;
 import com.ss.utopia.entity.Passenger;
@@ -560,6 +562,23 @@ public class AdminService {
 		}
 		return null;
 	}
+	
+	public List<Booking> readBookingOveride() throws SQLException {
+		Connection conn = null;
+		try {
+			conn = connUtil.getConnection();
+			BookingDAO bdao = new BookingDAO(conn);
+			List<Booking> bookings = new ArrayList<Booking>();
+			return bookings = bdao.readBookingOveride();
+		} catch (Exception e) {
+			if (conn != null)
+				conn.rollback();
+		} finally {
+			if (conn != null)
+				conn.close();
+		}
+		return null;
+	}
 
 	public Booking addBooking(Booking booking) throws SQLException {
 		Connection conn = null;
@@ -655,5 +674,27 @@ public class AdminService {
 				conn.close();
 		}
 		return null;
+	}
+	
+	public void tripOveride(Booking booking) throws SQLException {
+		Connection conn = null;
+		try {
+			conn = connUtil.getConnection();
+			BookingDAO bdao = new BookingDAO(conn);
+			Integer id = 0;
+			id = booking.getId();
+			bdao.tripOveride(booking);
+			BookingPaymentDAO payment = new BookingPaymentDAO(conn);
+			payment.tripOverride(id);
+			conn.commit();
+			System.out.println("Trip Overrided");
+		} catch (Exception e) {
+			if (conn != null)
+				conn.rollback();
+			System.out.println("Trip Override Unsuccessful");
+		} finally {
+			if (conn != null)
+				conn.close();
+		}
 	}
 }

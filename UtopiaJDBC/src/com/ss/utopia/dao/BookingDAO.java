@@ -25,6 +25,11 @@ public class BookingDAO extends BaseDAO<Booking> {
 		save("UPDATE booking set is_active = ?, confirmation_code = ? WHERE id = ?",
 				new Object[] {booking.getIsActive(), booking.getConfirmationCode(), booking.getId()});
 	}
+	
+	public Integer tripOveride(Booking booking) throws ClassNotFoundException, SQLException {
+		return saveWithPK("update booking set is_active = 1 where id = ?",
+				new Object[] {booking.getId()});
+	}
 
 	public void deleteBooking(Booking booking) throws ClassNotFoundException, SQLException {
 		save("Delete booking where id = ?", new Object[] { booking.getId() });
@@ -36,6 +41,10 @@ public class BookingDAO extends BaseDAO<Booking> {
 	
 	public List<Booking> readBookingById(Integer in) throws ClassNotFoundException, SQLException {
 		return read("SELECT * FROM booking WHERE id = ?", new Object[] {in});
+	}
+	
+	public List<Booking> readBookingOveride() throws ClassNotFoundException, SQLException {
+		return read("Select * from booking Inner Join booking_payment ON booking_payment.booking_id = booking.id AND booking.is_active = 0 AND booking_payment.refunded = 1;", null);
 	}
 
 	@Override

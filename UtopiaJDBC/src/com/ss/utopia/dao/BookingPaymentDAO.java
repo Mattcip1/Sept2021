@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.ss.utopia.entity.Airport;
+import com.ss.utopia.entity.Booking;
 import com.ss.utopia.entity.BookingPayment;
 
 public class BookingPaymentDAO extends BaseDAO<BookingPayment> {
@@ -24,13 +25,22 @@ public class BookingPaymentDAO extends BaseDAO<BookingPayment> {
 		save("UPDATE booking_payment set stripe_id = ?, refunded = ? WHERE booking_id = ?",
 				new Object[] {payment.getStripeId(), payment.getRefunded(), payment.getPaymentId().getId()});
 	}
+	
+	public void tripOverride(Integer id) throws ClassNotFoundException, SQLException {
+		save("UPDATE booking_payment set refunded = 0 WHERE booking_id = ?",
+				new Object[] {id});
+	}
 
 	public void deleteBookingPayment(BookingPayment payment) throws ClassNotFoundException, SQLException {
 		save("Delete booking_payment where booking_id = ?", new Object[] { payment.getPaymentId().getId() });
 	}
 
-	public List<BookingPayment> readAirport() throws ClassNotFoundException, SQLException {
+	public List<BookingPayment> readBookingPayment() throws ClassNotFoundException, SQLException {
 		return read("SELECT * FROM booking_payment", null);
+	}
+	
+	public List<BookingPayment> readBookingPayment(Integer id) throws ClassNotFoundException, SQLException {
+		return read("SELECT * FROM booking_payment where booking_id = ?", new Object[] {id});
 	}
 
 	@Override
@@ -39,6 +49,7 @@ public class BookingPaymentDAO extends BaseDAO<BookingPayment> {
 
 		while (rs.next()) {
 			BookingPayment payment = new BookingPayment();
+			payment.setPaymentId(new Booking());
 			payment.getPaymentId().setId(rs.getInt("booking_id"));
 			payment.setStripeId(rs.getString("stripe_id"));
 			payment.setRefunded(rs.getInt("refunded"));

@@ -84,6 +84,7 @@ public class Driver {
 			Driver.adminAgentsConsole();
 			break;
 		case "7":
+			Driver.adminTripOverideConsole();
 			break;
 		}
 	}
@@ -594,5 +595,21 @@ public class Driver {
 				System.out.println(a.toString());
 			break;
 		}
+	}
+	
+	private static void adminTripOverideConsole() throws SQLException {
+		Scanner scan = new Scanner(System.in);
+		AdminService serv = new AdminService();
+		List<Booking> bookings = new ArrayList<Booking>();
+		bookings = serv.readBookingOveride();
+		int ct = 0;
+		for (Booking b : bookings) {
+			System.out.println(ct + "--" + b.toString());
+			ct++;
+		}
+		System.out.println("What Trip would you like to Overide?");
+		String in = scan.nextLine();
+		Integer index = Integer.parseInt(in);
+		serv.tripOveride(bookings.get(index));
 	}
 }
